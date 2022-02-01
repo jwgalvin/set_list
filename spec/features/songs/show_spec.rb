@@ -12,7 +12,12 @@ describe Song do
     expect(page).to_not have_content(song_2.title)
   end
 
-  xit "displays name of artist" do
-
+  it "displays name of artist" do
+    artist = Artist.create(name: "Fancy pants")
+    song = artist.songs.create!(title: "woot", length: 255, play_count: 2345)
+    song_2 = artist.songs.create!(title: "Shbam", length: 255, play_count: 2345)
+    visit "/songs/#{song.id}"
+    save_and_open_page
+    expect(page).to have_content(artist.name)
   end
 end
